@@ -19,3 +19,7 @@ h1 {
     background-size: cover;
     margin: 0 auto;
 }
+
+.code {
+    color: brown;
+}

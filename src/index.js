@@ -8,7 +8,7 @@ import css from './styles/styles.css';
 
 const post = new Post('Webpack post title', WebpackLogo);
 
-$('pre').html(post.toString());
+$('pre').addClass('code').html(post.toString());
 
 console.log('Post to String: ', post.toString());
 
