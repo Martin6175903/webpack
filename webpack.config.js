@@ -27,6 +27,26 @@ const optimization = () => {
     return config;
 }
 
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`;
+
+const cssLoaders = extra => {
+    const loaders = [{
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+
+        }
+    },
+        'css-loader',
+        'sass-loader'
+    ];
+
+    if (extra) {
+        loaders.push(extra);
+    }
+
+    return loaders;
+}
+
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: "development",
@@ -35,7 +55,7 @@ module.exports = {
         analytics: './analytics.js'
     },
     output: {
-        filename: "[name].[contenthash].js",
+        filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
@@ -69,19 +89,18 @@ module.exports = {
             ]
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[contenthash].css"
+            filename: filename('css')
         })
     ],
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-
-                    }
-                }, 'css-loader']
+                test: /\.(s*)css$/i,
+                use: cssLoaders('sass-loader')
+            },
+            {
+                test: /\.less$/i,
+                use: cssLoaders('less-loader')
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
